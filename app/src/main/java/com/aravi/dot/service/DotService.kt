@@ -381,7 +381,7 @@ class DotService : AccessibilityService() {
         if (isCameraUnavailable) components.add("CAMERA")
         if (isMicUnavailable) components.add("MIC")
         if (isLocUnavailable) components.add("LOCATION")
-        return "$appName is using your ${components.joinToString(", ")}"
+        return "In use: ${components.joinToString(", ")} ($appName is in foreground)"
     }
 
     private fun showOnUseNotification() {
