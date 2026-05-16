@@ -73,6 +73,8 @@ class DotService : AccessibilityService() {
     private var didMicUseStart = false
     private var didLocUseStart = false
 
+    private val activeCameras = mutableSetOf<String>()
+
     private lateinit var hoverLayout: FrameLayout
     private lateinit var dotCamera: ImageView
     private lateinit var dotMic: ImageView
@@ -195,7 +197,8 @@ class DotService : AccessibilityService() {
         cameraCallback = object : AvailabilityCallback() {
             override fun onCameraAvailable(cameraId: String) {
                 super.onCameraAvailable(cameraId)
-                if (sharedPreferenceManager.isCameraEnabled) {
+                activeCameras.remove(cameraId)
+                if (sharedPreferenceManager.isCameraEnabled && activeCameras.isEmpty()) {
                     isCameraUnavailable = false
                     didCameraUseStart = true
                     dismissOnUseNotification()
@@ -206,7 +209,9 @@ class DotService : AccessibilityService() {
 
             override fun onCameraUnavailable(cameraId: String) {
                 super.onCameraUnavailable(cameraId)
-                if (sharedPreferenceManager.isCameraEnabled) {
+                val wasEmpty = activeCameras.isEmpty()
+                activeCameras.add(cameraId)
+                if (sharedPreferenceManager.isCameraEnabled && wasEmpty) {
                     isCameraUnavailable = true
                     didCameraUseStart = true
                     showOnUseNotification()
@@ -533,6 +538,14 @@ class DotService : AccessibilityService() {
         unRegisterLocCallback()
         if (this::notificationManager.isInitialized) {
             notificationManager.cancel(3)
+            notificationManager.cancel(Constants.NOTIFICATION_ID)
+        }
+        if (this::windowManager.isInitialized && this::hoverLayout.isInitialized) {
+            try {
+                windowManager.removeView(hoverLayout)
+            } catch (e: Exception) {
+                // Ignore if view was already removed or window token is invalid
+            }
         }
         // we cannot remove accessibility service
         stopForeground(true)
