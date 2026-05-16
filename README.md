@@ -73,6 +73,32 @@ or just fork the repository.
 
 [CONTRIBUTING.MD](https://github.com/kamaravichow/safe-dot-android/blob/master/CONTRIBUTING.md)
 
+## Building a Signed Release
+
+To build a signed release APK or App Bundle via the command line, you need to configure your keystore properties locally. 
+
+1. Create a `local.properties` file in the root directory (if it doesn't exist already).
+2. Add your Keystore details to `local.properties`. **Do not commit this file or your `.jks` file to version control.**
+
+```properties
+RELEASE_STORE_FILE=/path/to/your/release-key.jks
+RELEASE_STORE_PASSWORD=your_keystore_password
+RELEASE_KEY_ALIAS=upload
+RELEASE_KEY_PASSWORD=your_key_password
+```
+
+3. Run the following Gradle commands:
+
+**To build a Signed APK:**
+```bash
+./gradlew assembleRelease
+```
+
+**To build a Signed AAB (App Bundle for Play Store):**
+```bash
+./gradlew bundleRelease
+```
+
 ## Screenshots 
 |![Screenshot1](https://github.com/kamaravichow/safe-dot-android/raw/master/docs/screenshot1.png)|![Screenshot2](https://github.com/kamaravichow/safe-dot-android/raw/master/docs/screenshot2.png)|![Screenshot2](https://github.com/kamaravichow/safe-dot-android/raw/master/docs/screenshot3.png)|
 |---|---|---|
