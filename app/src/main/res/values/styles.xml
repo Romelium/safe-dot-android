@@ -41,15 +41,6 @@
         <item name="colorLocation">@color/lightLocation</item>
     </style>
 
-
-    <style name="AppTheme.Feedback" parent="Theme.Material3.DayNight">
-        <item name="colorPrimary">@color/lightPrimary</item>
-        <item name="colorSecondary">@color/lightSecondary</item>
-        <item name="colorPrimaryDark">@color/lightBackground</item>
-        <item name="colorAccent">@color/lightPrimary</item>
-        <item name="android:forceDarkAllowed" tools:targetApi="q">false</item>
-    </style>
-
     <style name="AppTheme.Transparent" parent="AppTheme">
         <item name="android:windowShowWallpaper">true</item>
         <item name="android:windowBackground">@android:color/transparent</item>

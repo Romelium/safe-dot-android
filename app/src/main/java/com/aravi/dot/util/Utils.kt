@@ -114,10 +114,10 @@ class Utils(val context: Context) : KoinComponent {
         context.startActivity(i, bundle)
     }
 
-    fun sendEmail() {
+    fun sendEmail(email: String) {
         val intent = Intent(Intent.ACTION_SENDTO)
         intent.data = Uri.parse("mailto:")
-        intent.putExtra(Intent.EXTRA_EMAIL, arrayOf<String>(""))
+        intent.putExtra(Intent.EXTRA_EMAIL, arrayOf<String>(email))
         intent.putExtra(
             Intent.EXTRA_SUBJECT,
             context.getString(R.string.app_name) + ":" + BuildConfig.VERSION_NAME

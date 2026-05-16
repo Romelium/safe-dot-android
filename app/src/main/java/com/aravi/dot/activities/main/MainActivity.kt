@@ -16,11 +16,9 @@
  */
 package com.aravi.dot.activities.main
 
-import android.Manifest
 import android.annotation.SuppressLint
 import android.app.ActivityOptions
 import android.content.Intent
-import android.content.pm.PackageManager
 import android.content.res.ColorStateList
 import android.os.Bundle
 import android.view.View
@@ -36,13 +34,9 @@ import com.aravi.dot.activities.actions.AccessActionsActivity
 import com.aravi.dot.activities.customise.CustomisationActivity
 import com.aravi.dot.database.AppDatabase
 import com.aravi.dot.databinding.ActivityMainBinding
-import com.aravi.dot.extensions.doesHavePermissions
-import com.aravi.dot.extensions.permission
 import com.aravi.dot.manager.DevLogger
 import com.aravi.dot.util.PermissionUtils
 import com.aravi.dot.util.Utils
-import com.google.android.material.snackbar.Snackbar
-import com.webianks.easy_feedback.EasyFeedback
 import logcat.logcat
 import me.aravi.commons.base.BaseActivity
 import org.koin.android.ext.android.inject
@@ -155,15 +149,7 @@ class MainActivity : BaseActivity() {
 
 
         binding.bugReport.setOnClickListener {
-            if (doesHavePermissions(Manifest.permission.READ_PHONE_STATE)) {
-                EasyFeedback.Builder(this)
-                    .withEmail("contact.24ac@gmail.com")
-                    .withSystemInfo()
-                    .build()
-                    .start()
-            } else {
-                permission(Manifest.permission.READ_PHONE_STATE)
-            }
+            utils.sendEmail("safedot@romelium.cc")
         }
 
         initData()
@@ -256,27 +242,6 @@ class MainActivity : BaseActivity() {
         return database.logsDao().getLogsCount(perm, date)
 
     }
-
-
-    override fun onRequestPermissionsResult(
-        requestCode: Int,
-        permissions: Array<out String>,
-        grantResults: IntArray
-    ) {
-        if (requestCode == 12030) {
-            if (grantResults.isEmpty() || grantResults[0] != PackageManager.PERMISSION_GRANTED) {
-                snackbar(
-                    binding.root,
-                    "Permission is required for sending feedback as it contains useful logs & device info",
-                    Snackbar.LENGTH_LONG
-                )
-            } else {
-                binding.bugReport.callOnClick()
-            }
-        }
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-    }
-
 
     override fun onDestroy() {
         super.onDestroy()
