@@ -18,6 +18,9 @@ package com.aravi.dot.activities.customise
 
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.MutableLiveData
+import android.content.Intent
+import android.graphics.Color
+import android.provider.Settings
 import android.os.Bundle
 import com.aravi.dot.databinding.ActivityCustomisationBinding
 import com.aravi.dot.manager.PreferenceManager
@@ -52,6 +55,48 @@ class CustomisationActivity : AppCompatActivity() {
             if (checkedId == binding.alignLeft.id && isChecked) preferenceManager.setDotPostion(0)
             if (checkedId == binding.alignRight.id && isChecked) preferenceManager.setDotPostion(1)
             if (checkedId == binding.alignCenter.id && isChecked) preferenceManager.setDotPostion(2)
+        }
+
+        binding.cameraColor.setOnClickListener {
+            val colorPicker = com.pes.materialcolorpicker.ColorPicker(this, 
+                Color.red(preferenceManager.cameraDotColor), 
+                Color.green(preferenceManager.cameraDotColor), 
+                Color.blue(preferenceManager.cameraDotColor))
+            colorPicker.show()
+            colorPicker.enableAutoClose()
+            colorPicker.setCallback { color ->
+                preferenceManager.cameraDotColor = color
+            }
+        }
+
+        binding.micColor.setOnClickListener {
+            val colorPicker = com.pes.materialcolorpicker.ColorPicker(this, 
+                Color.red(preferenceManager.micDotColor), 
+                Color.green(preferenceManager.micDotColor), 
+                Color.blue(preferenceManager.micDotColor))
+            colorPicker.show()
+            colorPicker.enableAutoClose()
+            colorPicker.setCallback { color ->
+                preferenceManager.micDotColor = color
+            }
+        }
+
+        binding.locColor.setOnClickListener {
+            val colorPicker = com.pes.materialcolorpicker.ColorPicker(this, 
+                Color.red(preferenceManager.locationDotColor), 
+                Color.green(preferenceManager.locationDotColor), 
+                Color.blue(preferenceManager.locationDotColor))
+            colorPicker.show()
+            colorPicker.enableAutoClose()
+            colorPicker.setCallback { color ->
+                preferenceManager.locationDotColor = color
+            }
+        }
+
+        binding.customizeNotification.setOnClickListener {
+            val intent = Intent(Settings.ACTION_APP_NOTIFICATION_SETTINGS)
+            intent.putExtra(Settings.EXTRA_APP_PACKAGE, packageName)
+            startActivity(intent)
         }
 
         binding.resetDefaults.setOnClickListener {

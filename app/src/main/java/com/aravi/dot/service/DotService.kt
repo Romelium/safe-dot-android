@@ -19,6 +19,7 @@ import android.media.AudioManager
 import android.media.AudioManager.AudioRecordingCallback
 import android.media.AudioRecordingConfiguration
 import android.os.Build
+import android.content.SharedPreferences
 import android.os.VibrationEffect
 import android.os.Vibrator
 import android.provider.Settings
@@ -131,9 +132,38 @@ class DotService : AccessibilityService() {
         }
     }
 
+    private val preferenceChangeListener = SharedPreferences.OnSharedPreferenceChangeListener { _, key ->
+        when (key) {
+            "me.aravi.dot.LOCATION" -> {
+                if (sharedPreferenceManager.isLocationEnabled) {
+                    if (checkLocationPermission()) {
+                        try {
+                            @Suppress("DEPRECATION")
+                            locationManager.registerGnssStatusCallback(locationCallback)
+                        } catch (e: SecurityException) {
+                            sharedPreferenceManager.isLocationEnabled = false
+                        }
+                    } else {
+                        sharedPreferenceManager.isLocationEnabled = false
+                    }
+                } else {
+                    @Suppress("DEPRECATION")
+                    locationManager.unregisterGnssStatusCallback(locationCallback)
+                }
+            }
+            "dot.camera.color", "dot.mic.color", "dot.loc.color",
+            "me.aravi.dot.ICON", "Xme.aravi.dot.ALIGNMENT" -> {
+                setDotCustomColors()
+                updateIconsVisibility()
+                updateLayoutGravity()
+            }
+        }
+    }
+
     override fun onServiceConnected() {
         sendBroadcast(Intent(KEY_ACCESSIBILITY_START).setPackage(BuildConfig.APPLICATION_ID))
         sharedPreferenceManager = PreferenceManager(this)
+        sharedPreferenceManager.registerListener(preferenceChangeListener)
         notificationManager = NotificationManagerCompat.from(applicationContext)
         initDotViews()
         initHardwareCallbacks()
@@ -553,6 +583,9 @@ class DotService : AccessibilityService() {
     }
 
     override fun onDestroy() {
+        if (this::sharedPreferenceManager.isInitialized) {
+            sharedPreferenceManager.unregisterListener(preferenceChangeListener)
+        }
         unRegisterCameraCallBack()
         unRegisterMicCallback()
         unRegisterLocCallback()

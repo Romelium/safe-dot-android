@@ -1,12 +1,16 @@
 package com.aravi.dot.activities.actions
 
+import android.Manifest
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
 import com.aravi.dot.activities.ignore.WhitelistActivity
 import com.aravi.dot.database.AppDatabase
 import com.aravi.dot.databinding.ActivityAccessActionsBinding
+import com.aravi.dot.extensions.doesHavePermissions
+import com.aravi.dot.extensions.permission
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import me.aravi.commons.base.BaseActivity
@@ -43,8 +47,18 @@ class AccessActionsActivity : BaseActivity() {
 
         binding.locationSwitch.checked(preferenceManager.isLocationEnabled)
         binding.locationSwitch.setOnClickListener {
-            preferenceManager.isLocationEnabled = !preferenceManager.isLocationEnabled
-            binding.locationSwitch.checked(preferenceManager.isLocationEnabled)
+            if (!preferenceManager.isLocationEnabled) {
+                if (doesHavePermissions(Manifest.permission.ACCESS_FINE_LOCATION)) {
+                    preferenceManager.isLocationEnabled = true
+                    binding.locationSwitch.checked(true)
+                } else {
+                    permission(Manifest.permission.ACCESS_FINE_LOCATION)
+                    binding.locationSwitch.checked(false)
+                }
+            } else {
+                preferenceManager.isLocationEnabled = false
+                binding.locationSwitch.checked(false)
+            }
         }
 
         binding.excludedApps.setOnClickListener {
@@ -75,6 +89,23 @@ class AccessActionsActivity : BaseActivity() {
         binding.timeSwitch.setOnClickListener {
             binding.timeSwitch.checked(!binding.timeSwitch.isChecked())
         }
+    }
+
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
+        if (requestCode == 12030) {
+            if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                val preferenceManager = com.aravi.dot.manager.PreferenceManager(this)
+                preferenceManager.isLocationEnabled = true
+                binding.locationSwitch.checked(true)
+            } else {
+                Toast.makeText(this, "Location permission is required", Toast.LENGTH_SHORT).show()
+            }
+        }
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
     }
 
 

@@ -43,10 +43,10 @@ class LogsAdapter(
 //                )
             }
             binding.root.setOnClickListener {
-//                Utils.openAppInfoActivity(
-//                    context,
-//                    logsList[viewHolder.getAdapterPosition() - 1].packageName
-//                )
+                val pos = viewHolder.bindingAdapterPosition
+                if (pos != RecyclerView.NO_POSITION && pos >= 1 && pos - 1 < logsList.size) {
+                    utils.openAppSettings(context, logsList[pos - 1].packageName)
+                }
             }
             return viewHolder
         } else {
