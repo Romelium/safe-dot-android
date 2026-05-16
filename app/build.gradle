@@ -80,10 +80,6 @@ android {
     }
 }
 
-repositories {
-    mavenCentral()
-}
-
 dependencies {
     implementation fileTree(dir: "libs", include: ["*.jar"])
     implementation 'io.github.kamaravichow:commons:1.3.0'
