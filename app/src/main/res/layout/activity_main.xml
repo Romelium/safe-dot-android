@@ -342,16 +342,6 @@
 
                     </LinearLayout>
 
-                    <com.aravi.dot.ui.views.SettingsView
-                        android:id="@+id/share_app"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:clickable="true"
-                        android:focusable="true"
-                        app:icon="@drawable/ic_share"
-                        app:icon_tint="@color/amber_600"
-                        app:message="Tell your family and friends about this application"
-                        app:title="Share with others" />
 
                 </LinearLayout>
 
