@@ -40,10 +40,10 @@ fun Intent.serialize(): String? {
     flags?.let {
         json.put("flags", it)
     }
-    val extras = JSONObject().apply {
-        extras?.keySet()?.forEach {
-            val extra = extras?.get(it)
-            if (extra is String || extra is Int || extra is Float || extra is Long || extra is Double || extra is Boolean) {
+    val extrasJson = JSONObject().apply {
+        this@serialize.extras?.keySet()?.forEach {
+            val extra = this@serialize.extras?.get(it)
+            if (extra is String) {
                 put(it, JSONObject().apply {
                     put("type", "string")
                     put("value", extra)
@@ -80,7 +80,7 @@ fun Intent.serialize(): String? {
             }
         }
     }
-    json.put("extras", extras)
+    json.put("extras", extrasJson)
     return json.toString()
 }
 

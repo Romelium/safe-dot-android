@@ -115,7 +115,7 @@ class DotService : AccessibilityService() {
             val notification = Notification.Builder(this, Constants.SERVICE_NOTIFICATION_CHANNEL)
                 .setContentTitle("SafeDot is running in the background")
                 .setContentText("Click here to hide notification")
-                .setSmallIcon(R.drawable.transparent)
+                .setSmallIcon(R.drawable.ic_logo_transparent)
                 .setContentIntent(pendingIntent)
                 .setTicker("Protect service")
                 .build()
@@ -197,8 +197,8 @@ class DotService : AccessibilityService() {
         cameraCallback = object : AvailabilityCallback() {
             override fun onCameraAvailable(cameraId: String) {
                 super.onCameraAvailable(cameraId)
-                activeCameras.remove(cameraId)
-                if (sharedPreferenceManager.isCameraEnabled && activeCameras.isEmpty()) {
+                val wasRemoved = activeCameras.remove(cameraId)
+                if (wasRemoved && sharedPreferenceManager.isCameraEnabled && activeCameras.isEmpty()) {
                     isCameraUnavailable = false
                     didCameraUseStart = true
                     dismissOnUseNotification()
@@ -231,18 +231,20 @@ class DotService : AccessibilityService() {
                 if (sharedPreferenceManager.isMicEnabled) {
                     didMicUseStart = true
                     if (configs.isNotEmpty()) {
-                        showMicDot()
-                        triggerVibration()
-                        isMicUnavailable = true
-                        showOnUseNotification()
-                        recordLog(PERMISSION_MICROPHONE)
-
+                        if (!isMicUnavailable) {
+                            showMicDot()
+                            triggerVibration()
+                            isMicUnavailable = true
+                            showOnUseNotification()
+                            recordLog(PERMISSION_MICROPHONE)
+                        }
                     } else {
-                        hideMicDot()
-                        isMicUnavailable = false
-                        dismissOnUseNotification()
-                        recordLog(PERMISSION_MICROPHONE)
-
+                        if (isMicUnavailable) {
+                            hideMicDot()
+                            isMicUnavailable = false
+                            dismissOnUseNotification()
+                            recordLog(PERMISSION_MICROPHONE)
+                        }
                     }
                 }
             }
@@ -254,24 +256,27 @@ class DotService : AccessibilityService() {
     private val locationCallback: GnssStatus.Callback = object : GnssStatus.Callback() {
         override fun onStarted() {
             if (sharedPreferenceManager.isLocationEnabled) {
-                didLocUseStart = true
-                isLocUnavailable = true
-                showLocDot()
-                triggerVibration()
-                showOnUseNotification()
-                recordLog(PERMISSION_LOCATION)
+                if (!isLocUnavailable) {
+                    didLocUseStart = true
+                    isLocUnavailable = true
+                    showLocDot()
+                    triggerVibration()
+                    showOnUseNotification()
+                    recordLog(PERMISSION_LOCATION)
+                }
             }
             super.onStarted()
         }
 
         override fun onStopped() {
             if (sharedPreferenceManager.isLocationEnabled) {
-                hideLocDot()
-                isLocUnavailable = false
-                didLocUseStart = true
-                dismissOnUseNotification()
-                recordLog(PERMISSION_LOCATION)
-
+                if (isLocUnavailable) {
+                    hideLocDot()
+                    isLocUnavailable = false
+                    didLocUseStart = true
+                    dismissOnUseNotification()
+                    recordLog(PERMISSION_LOCATION)
+                }
             }
             super.onStopped()
         }
@@ -311,7 +316,7 @@ class DotService : AccessibilityService() {
     private fun initOnUseNotification(appUsingComponent: String) {
         notificationCompatBuilder =
             NotificationCompat.Builder(applicationContext, Constants.DEFAULT_NOTIFICATION_CHANNEL)
-                .setSmallIcon(R.drawable.transparent)
+                .setSmallIcon(R.drawable.ic_logo_transparent)
                 .setContentTitle(notificationTitle)
                 .setContentText(getNotificationDescription(appUsingComponent))
                 .setContentIntent(pendingIntent)
@@ -379,9 +384,9 @@ class DotService : AccessibilityService() {
     }
 
     private fun setViewTint(imageView: ImageView?, color: Int) {
-        val drawable = ContextCompat.getDrawable(applicationContext, R.drawable.ic_dot)
-        drawable!!.setColorFilter(color, PorterDuff.Mode.SRC_ATOP)
-        imageView!!.background = drawable
+        val drawable = ContextCompat.getDrawable(applicationContext, R.drawable.ic_dot)?.mutate()
+        drawable?.setColorFilter(color, PorterDuff.Mode.SRC_ATOP)
+        imageView?.background = drawable
     }
 
     private fun triggerVibration() {
