@@ -317,34 +317,24 @@ class DotService : AccessibilityService() {
 
     private val notificationTitle: String
         get() {
-            var title = "Your "
-            if (isCameraUnavailable) {
-                title += "CAMERA, "
-            }
-            if (isMicUnavailable) {
-                title += "MIC, "
-            }
-            if (isLocUnavailable) {
-                title += "LOCATION"
-            }
-            return "$title are being monitored"
+            val components = mutableListOf<String>()
+            if (isCameraUnavailable) components.add("CAMERA")
+            if (isMicUnavailable) components.add("MIC")
+            if (isLocUnavailable) components.add("LOCATION")
+            return "Your ${components.joinToString(", ")} are being monitored"
         }
 
 
     private fun getNotificationDescription(appUsingComponent: String): String {
-        var appUsingComponent = appUsingComponent
-        if (appUsingComponent.isEmpty() || appUsingComponent == "(unknown)") {
-            appUsingComponent = "some app"
+        var appName = appUsingComponent
+        if (appName.isEmpty() || appName == "(unknown)") {
+            appName = "some app"
         }
-        var description = "$appUsingComponent is using your "
-        if (isCameraUnavailable) {
-            description += "CAMERA, "
-        }
-        if (isMicUnavailable) {
-            description += "MIC, "
-        }
-        if (isLocUnavailable) description += "LOCATION"
-        return description
+        val components = mutableListOf<String>()
+        if (isCameraUnavailable) components.add("CAMERA")
+        if (isMicUnavailable) components.add("MIC")
+        if (isLocUnavailable) components.add("LOCATION")
+        return "$appName is using your ${components.joinToString(", ")}"
     }
 
     private fun showOnUseNotification() {
@@ -358,7 +348,7 @@ class DotService : AccessibilityService() {
     }
 
     private fun dismissOnUseNotification() {
-        if (isCameraUnavailable || isMicUnavailable) {
+        if (isCameraUnavailable || isMicUnavailable || isLocUnavailable) {
             showOnUseNotification()
         } else {
             notificationManager.cancel(NOTIFICATION_ID)
@@ -532,7 +522,7 @@ class DotService : AccessibilityService() {
     }
 
     private fun unRegisterLocCallback() {
-        if (this::locationManager.isInitialized && sharedPreferenceManager.isLocationEnabled) {
+        if (this::locationManager.isInitialized) {
             locationManager.unregisterGnssStatusCallback(locationCallback)
         }
     }
