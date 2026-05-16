@@ -261,6 +261,7 @@
 
 
                     <com.aravi.dot.ui.views.SettingsView
+                        android:id="@+id/customize_notification"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:clickable="true"
@@ -328,6 +329,7 @@
                             android:text="Bug Report" />
 
                         <com.google.android.material.button.MaterialButton
+                            android:id="@+id/feature_request"
                             style="@style/Widget.Material3.Button.TonalButton"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -339,6 +341,7 @@
                     </LinearLayout>
 
                     <com.aravi.dot.ui.views.SettingsView
+                        android:id="@+id/share_app"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:clickable="true"

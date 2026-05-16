@@ -20,9 +20,11 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.MutableLiveData
 import android.os.Bundle
 import com.aravi.dot.databinding.ActivityCustomisationBinding
+import com.aravi.dot.manager.PreferenceManager
 
 class CustomisationActivity : AppCompatActivity() {
     private lateinit var binding: ActivityCustomisationBinding
+    private lateinit var preferenceManager: PreferenceManager
 
     private val updatedSomething = MutableLiveData<Boolean>()
 
@@ -31,6 +33,33 @@ class CustomisationActivity : AppCompatActivity() {
         binding = ActivityCustomisationBinding.inflate(layoutInflater)
         setContentView(binding.root)
         setSupportActionBar(binding.toolbar)
+
+        preferenceManager = PreferenceManager(this)
+
+        binding.iconsSwitch.checked(preferenceManager.isIconsEnabled)
+        binding.iconsSwitch.setOnClickListener {
+            preferenceManager.isIconsEnabled = !preferenceManager.isIconsEnabled
+            binding.iconsSwitch.checked(preferenceManager.isIconsEnabled)
+        }
+
+        when (preferenceManager.dotPosition) {
+            0 -> binding.dotAlignmentGroup.check(binding.alignLeft.id)
+            1 -> binding.dotAlignmentGroup.check(binding.alignRight.id)
+            2 -> binding.dotAlignmentGroup.check(binding.alignCenter.id)
+        }
+
+        binding.dotAlignmentGroup.addOnButtonCheckedListener { _, checkedId, isChecked ->
+            if (checkedId == binding.alignLeft.id && isChecked) preferenceManager.setDotPostion(0)
+            if (checkedId == binding.alignRight.id && isChecked) preferenceManager.setDotPostion(1)
+            if (checkedId == binding.alignCenter.id && isChecked) preferenceManager.setDotPostion(2)
+        }
+
+        binding.resetDefaults.setOnClickListener {
+            preferenceManager.isIconsEnabled = true
+            preferenceManager.setDotPostion(1)
+            binding.iconsSwitch.checked(preferenceManager.isIconsEnabled)
+            binding.dotAlignmentGroup.check(binding.alignRight.id)
+        }
     }
 
     override fun onSupportNavigateUp(): Boolean {

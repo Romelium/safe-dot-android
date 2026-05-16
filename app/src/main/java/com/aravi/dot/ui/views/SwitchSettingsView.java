@@ -91,4 +91,8 @@ public class SwitchSettingsView extends RelativeLayout {
         this.switchMaterial.setChecked(checked, true);
     }
 
+    public boolean isChecked() {
+        return this.switchMaterial.isChecked();
+    }
+
 }

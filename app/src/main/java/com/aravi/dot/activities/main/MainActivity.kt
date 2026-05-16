@@ -114,6 +114,36 @@ class MainActivity : BaseActivity() {
             open(CustomisationActivity::class.java)
         }
 
+        binding.customizeNotification.setOnClickListener {
+            val intent = Intent(Settings.ACTION_APP_NOTIFICATION_SETTINGS)
+            intent.putExtra(Settings.EXTRA_APP_PACKAGE, packageName)
+            startActivity(intent)
+        }
+
+        binding.featureRequest.setOnClickListener {
+            utils.openLink("https://github.com/kamaravichow/safe-dot-android/issues")
+        }
+
+        binding.shareApp.setOnClickListener {
+            val sendIntent = Intent()
+            sendIntent.action = Intent.ACTION_SEND
+            sendIntent.putExtra(Intent.EXTRA_TEXT, "Check out SafeDot to protect your privacy: https://play.google.com/store/apps/details?id=${BuildConfig.APPLICATION_ID}")
+            sendIntent.type = "text/plain"
+            startActivity(Intent.createChooser(sendIntent, "Share SafeDot"))
+        }
+
+        binding.githubButton.setOnClickListener {
+            utils.openLink("https://github.com/kamaravichow/safe-dot-android")
+        }
+
+        binding.twitterButton.setOnClickListener {
+            utils.openLink("https://twitter.com")
+        }
+
+        binding.telegramButton.setOnClickListener {
+            utils.openLink("https://t.me")
+        }
+
         with(viewModel) {
             setupAccessibilityListener(this@MainActivity)
             setupAccessibilityLaunchListener(this@MainActivity)

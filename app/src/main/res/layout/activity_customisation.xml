@@ -172,6 +172,7 @@
 
 
             <com.aravi.dot.ui.views.SwitchSettingsView
+                android:id="@+id/icons_switch"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:clickable="true"
@@ -183,6 +184,7 @@
 
 
             <com.aravi.dot.ui.views.SettingsView
+                android:id="@+id/reset_defaults"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:clickable="true"
@@ -235,6 +237,7 @@
 
 
             <com.aravi.dot.ui.views.SettingsView
+                android:id="@+id/reset_defaults"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:clickable="true"
@@ -308,6 +311,7 @@
 
 
             <com.aravi.dot.ui.views.SettingsView
+                android:id="@+id/reset_defaults"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:clickable="true"

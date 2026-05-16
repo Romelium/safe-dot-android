@@ -109,6 +109,7 @@
                     android:orientation="vertical">
 
                     <com.aravi.dot.ui.views.SettingsView
+                        android:id="@+id/excluded_apps"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:clickable="true"
@@ -129,6 +130,7 @@
                         android:weightSum="3">
 
                         <com.google.android.material.button.MaterialButton
+                            android:id="@+id/btn_excluded_apps"
                             style="@style/Widget.Material3.Button.TonalButton"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -137,6 +139,7 @@
                             android:text="Excluded Apps" />
 
                         <com.google.android.material.button.MaterialButton
+                            android:id="@+id/btn_options"
                             style="@style/Widget.Material3.Button.TonalButton"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -159,6 +162,7 @@
                         app:title="Times ago " />
 
                     <com.aravi.dot.ui.views.SettingsView
+                        android:id="@+id/clear_access_logs"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:clickable="true"
