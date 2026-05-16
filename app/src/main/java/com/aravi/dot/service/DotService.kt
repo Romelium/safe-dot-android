@@ -175,7 +175,6 @@ class DotService : AccessibilityService() {
 
         locationManager = getSystemService(LOCATION_SERVICE) as LocationManager
         if (checkLocationPermission()) {
-            sharedPreferenceManager.isLocationEnabled = true
             try {
                 locationManager.registerGnssStatusCallback(locationCallback)
             } catch (e: SecurityException) {
@@ -225,6 +224,7 @@ class DotService : AccessibilityService() {
         micCallback = object : AudioRecordingCallback() {
             override fun onRecordingConfigChanged(configs: List<AudioRecordingConfiguration>) {
                 if (sharedPreferenceManager.isMicEnabled) {
+                    didMicUseStart = true
                     if (configs.isNotEmpty()) {
                         showMicDot()
                         triggerVibration()
@@ -239,7 +239,6 @@ class DotService : AccessibilityService() {
                         recordLog(PERMISSION_MICROPHONE)
 
                     }
-                    didMicUseStart = true
                 }
             }
         }
@@ -291,7 +290,7 @@ class DotService : AccessibilityService() {
                 currentRunningAppPackage,
                 permission,
                 state,
-                utils.getDateFromTimestamp(calendar.timeInMillis)
+                android.text.format.DateFormat.format("dd-MM-yyyy", System.currentTimeMillis()).toString()
             )
             appDatabase.logsDao().insertLog(log)
         }
@@ -391,10 +390,6 @@ class DotService : AccessibilityService() {
     }
 
     private fun triggerVibration() {
-        val audioAttributes = AudioAttributes.Builder()
-            .setFlags(PendingIntent.FLAG_IMMUTABLE)
-            .setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION)
-            .build()
         if (sharedPreferenceManager.isVibrationEnabled) {
             val v = getSystemService(VIBRATOR_SERVICE) as Vibrator
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
@@ -407,33 +402,32 @@ class DotService : AccessibilityService() {
         }
     }
 
-    private val iconsEnabled: Unit
-        get() {
-            if (sharedPreferenceManager.isIconsEnabled) {
-                dotCamera.setImageDrawable(
-                    ContextCompat.getDrawable(
-                        applicationContext,
-                        R.drawable.ic_round_camera
-                    )
+    private fun updateIconsVisibility() {
+        if (sharedPreferenceManager.isIconsEnabled) {
+            dotCamera.setImageDrawable(
+                ContextCompat.getDrawable(
+                    applicationContext,
+                    R.drawable.ic_round_camera
                 )
-                dotMic.setImageDrawable(
-                    ContextCompat.getDrawable(
-                        applicationContext,
-                        R.drawable.ic_round_mic
-                    )
+            )
+            dotMic.setImageDrawable(
+                ContextCompat.getDrawable(
+                    applicationContext,
+                    R.drawable.ic_round_mic
                 )
-                dotLoc.setImageDrawable(
-                    ContextCompat.getDrawable(
-                        applicationContext,
-                        R.drawable.ic_round_location
-                    )
+            )
+            dotLoc.setImageDrawable(
+                ContextCompat.getDrawable(
+                    applicationContext,
+                    R.drawable.ic_round_location
                 )
-            } else {
-                dotCamera.setImageDrawable(null)
-                dotMic.setImageDrawable(null)
-                dotLoc.setImageDrawable(null)
-            }
-        }// right on default// center//right
+            )
+        } else {
+            dotCamera.setImageDrawable(null)
+            dotMic.setImageDrawable(null)
+            dotLoc.setImageDrawable(null)
+        }
+    }// right on default// center//right
 
     // left
     private val layoutGravity: Int
@@ -451,7 +445,7 @@ class DotService : AccessibilityService() {
         if (sharedPreferenceManager.isCameraEnabled) {
             updateLayoutGravity()
             setDotCustomColors()
-            iconsEnabled
+            updateIconsVisibility()
             upScaleView(dotCamera)
             dotCamera.visibility = View.VISIBLE
         }
@@ -461,7 +455,7 @@ class DotService : AccessibilityService() {
         if (sharedPreferenceManager.isMicEnabled) {
             updateLayoutGravity()
             setDotCustomColors()
-            iconsEnabled
+            updateIconsVisibility()
             upScaleView(dotMic)
             dotMic.visibility = View.VISIBLE
         }
@@ -471,7 +465,7 @@ class DotService : AccessibilityService() {
         if (sharedPreferenceManager.isLocationEnabled) {
             updateLayoutGravity()
             setDotCustomColors()
-            iconsEnabled
+            updateIconsVisibility()
             upScaleView(dotLoc)
             dotLoc.visibility = View.VISIBLE
         }

@@ -59,7 +59,7 @@ class MainActivity : BaseActivity() {
 
     private val viewModel by viewModels<MainActivityViewModel>()
 
-    var date = "01-Jan-2021"
+    var date = ""
 
 
     private val barSet = listOf(
@@ -84,7 +84,7 @@ class MainActivity : BaseActivity() {
             .makeCustomAnimation(this, R.anim.slide_in_right, R.anim.slide_out_left)
             .toBundle();
 
-        date = utils.getDateFromTimestamp(Calendar.getInstance().timeInMillis);
+        date = android.text.format.DateFormat.format("dd-MM-yyyy", System.currentTimeMillis()).toString()
 
         binding.appbarLayout.root.setPadding(0, statusBarHeight(resources), 0, 0)
         binding.openSettings.setOnClickListener {

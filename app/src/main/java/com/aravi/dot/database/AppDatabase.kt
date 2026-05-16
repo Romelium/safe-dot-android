@@ -8,6 +8,7 @@ import com.aravi.dot.BuildConfig
 import com.aravi.dot.bean.AppBean
 import com.aravi.dot.bean.DevLogs
 import com.aravi.dot.bean.Log
+import com.aravi.dot.database.dao.AppDao
 import com.aravi.dot.database.dao.DevLogsDao
 import com.aravi.dot.database.dao.LogsDao
 import org.koin.core.component.KoinComponent
@@ -17,6 +18,7 @@ abstract class AppDatabase : RoomDatabase(), KoinComponent {
 
     abstract fun logsDao(): LogsDao
     abstract fun devLogsDao(): DevLogsDao
+    abstract fun appDao(): AppDao
 
     companion object {
         fun database(context: Context): AppDatabase {

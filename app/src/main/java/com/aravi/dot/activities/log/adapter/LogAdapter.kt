@@ -25,7 +25,6 @@ class LogsAdapter(
 ) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     private val logsList: MutableList<Log> = ArrayList()
-    private val dates: HashMap<Int, String> = HashMap()
     private val helpPackages: MutableList<String> = ArrayList()
     private var load = false
 
@@ -62,11 +61,19 @@ class LogsAdapter(
             val logsView: LogViewHolder = holder as LogViewHolder
             val item: Log = logsList[position - 1]
             val date: String = utils.getDateFromTimestamp(item.timestamp)
-            if (!dates.containsValue(date) or dates.containsKey(position)) {
+
+            val showHeader = if (position - 1 == 0) {
+                true
+            } else {
+                val prevItem = logsList[position - 2]
+                val prevDate = utils.getDateFromTimestamp(prevItem.timestamp)
+                date != prevDate
+            }
+
+            if (showHeader) {
                 logsView.textDate.text = date
                 logsView.textDate.visibility = View.VISIBLE
                 logsView.viewHorizontal.visibility = View.VISIBLE
-                dates[position] = date
             } else {
                 logsView.textDate.visibility = View.GONE
                 logsView.viewHorizontal.visibility = View.GONE
@@ -113,7 +120,6 @@ class LogsAdapter(
     @SuppressLint("NotifyDataSetChanged")
     fun setLogsList(logsList: List<Log>) {
         this.logsList.clear()
-        this.dates.clear()
         this.logsList.addAll(logsList)
         notifyDataSetChanged()
     }
