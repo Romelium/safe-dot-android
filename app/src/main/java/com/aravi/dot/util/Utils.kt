@@ -131,7 +131,7 @@ class Utils(val context: Context) : KoinComponent {
 
     fun sendEmail() {
         val intent = Intent(Intent.ACTION_SENDTO)
-        intent.data = Uri.parse("content://")
+        intent.data = Uri.parse("mailto:")
         intent.putExtra(Intent.EXTRA_EMAIL, arrayOf<String>(""))
         intent.putExtra(
             Intent.EXTRA_SUBJECT,

@@ -212,7 +212,7 @@ class MainActivity : BaseActivity() {
 
         if (entries.size == 0) {
             logcat { "SETTING NO DATA MODE" }
-            entries.add(FitChartValue(1f, 0xF2F2F2))
+            entries.add(FitChartValue(1f, 0xFFF2F2F2.toInt()))
         }
 
         binding.pieChart.setAnimationMode(AnimationMode.OVERDRAW)
@@ -233,7 +233,7 @@ class MainActivity : BaseActivity() {
         grantResults: IntArray
     ) {
         if (requestCode == 12030) {
-            if (grantResults[0] != PackageManager.PERMISSION_GRANTED) {
+            if (grantResults.isEmpty() || grantResults[0] != PackageManager.PERMISSION_GRANTED) {
                 snackbar(
                     binding.root,
                     "Permission is required for sending feedback as it contains useful logs & device info",

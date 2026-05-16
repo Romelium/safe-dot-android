@@ -30,7 +30,9 @@ fun Intent.serialize(): String? {
     val jsonCategories = JSONArray()
     categories?.forEach {
         jsonCategories.put(it)
-        json.put("categories", categories)
+    }
+    if (jsonCategories.length() > 0) {
+        json.put("categories", jsonCategories)
     }
     component?.let {
         json.put("component", it?.flattenToString())

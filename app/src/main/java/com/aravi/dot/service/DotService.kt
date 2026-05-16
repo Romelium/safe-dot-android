@@ -94,7 +94,7 @@ class DotService : AccessibilityService() {
 
     private var calendar = Calendar.getInstance()
 
-    override fun onStartCommand(intent: Intent, flags: Int, startId: Int): Int {
+    override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         return super.onStartCommand(intent, flags, startId)
     }
 
@@ -176,7 +176,11 @@ class DotService : AccessibilityService() {
         locationManager = getSystemService(LOCATION_SERVICE) as LocationManager
         if (checkLocationPermission()) {
             sharedPreferenceManager.isLocationEnabled = true
-            locationManager.registerGnssStatusCallback(locationCallback)
+            try {
+                locationManager.registerGnssStatusCallback(locationCallback)
+            } catch (e: SecurityException) {
+                sharedPreferenceManager.isLocationEnabled = false
+            }
         } else {
             sharedPreferenceManager.isLocationEnabled = false
         }
@@ -296,7 +300,7 @@ class DotService : AccessibilityService() {
     private fun checkLocationPermission(): Boolean {
         return ActivityCompat.checkSelfPermission(
             this,
-            Manifest.permission.ACCESS_COARSE_LOCATION
+            Manifest.permission.ACCESS_FINE_LOCATION
         ) == PackageManager.PERMISSION_GRANTED
     }
 
@@ -393,11 +397,10 @@ class DotService : AccessibilityService() {
             .build()
         if (sharedPreferenceManager.isVibrationEnabled) {
             val v = getSystemService(VIBRATOR_SERVICE) as Vibrator
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                v.vibrate(VibrationEffect.createOneShot(500, VibrationEffect.DEFAULT_AMPLITUDE))
-            }
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
                 v.vibrate(VibrationEffect.createOneShot(500, VibrationEffect.EFFECT_HEAVY_CLICK))
+            } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                v.vibrate(VibrationEffect.createOneShot(500, VibrationEffect.DEFAULT_AMPLITUDE))
             } else {
                 v.vibrate(500)
             }
@@ -523,22 +526,30 @@ class DotService : AccessibilityService() {
 
     // Unregistering on destroy
     private fun unRegisterCameraCallBack() {
-        cameraManager.unregisterAvailabilityCallback(cameraCallback)
+        if (this::cameraManager.isInitialized && this::cameraCallback.isInitialized) {
+            cameraManager.unregisterAvailabilityCallback(cameraCallback)
+        }
     }
 
     private fun unRegisterMicCallback() {
-        audioManager.unregisterAudioRecordingCallback(micCallback)
+        if (this::audioManager.isInitialized && this::micCallback.isInitialized) {
+            audioManager.unregisterAudioRecordingCallback(micCallback)
+        }
     }
 
     private fun unRegisterLocCallback() {
-        locationManager.unregisterGnssStatusCallback(locationCallback)
+        if (this::locationManager.isInitialized && sharedPreferenceManager.isLocationEnabled) {
+            locationManager.unregisterGnssStatusCallback(locationCallback)
+        }
     }
 
     override fun onDestroy() {
         unRegisterCameraCallBack()
         unRegisterMicCallback()
         unRegisterLocCallback()
-        notificationManager.cancel(3)
+        if (this::notificationManager.isInitialized) {
+            notificationManager.cancel(3)
+        }
         // we cannot remove accessibility service
         stopForeground(true)
         super.onDestroy()
