@@ -34,7 +34,9 @@ import com.aravi.dot.activities.actions.AccessActionsActivity
 import com.aravi.dot.activities.customise.CustomisationActivity
 import com.aravi.dot.database.AppDatabase
 import com.aravi.dot.databinding.ActivityMainBinding
+import com.aravi.dot.extensions.isAccessibilityServiceEnabled
 import com.aravi.dot.manager.DevLogger
+import com.aravi.dot.service.DotService
 import com.aravi.dot.util.PermissionUtils
 import com.aravi.dot.util.Utils
 import logcat.logcat
@@ -148,6 +150,11 @@ class MainActivity : BaseActivity() {
 
 
         binding.versionText.text = "Version : ${BuildConfig.VERSION_NAME}"
+    }
+
+    override fun onResume() {
+        super.onResume()
+        onServiceStateChanged(isAccessibilityServiceEnabled(this, DotService::class.java))
     }
 
 
