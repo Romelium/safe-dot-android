@@ -28,3 +28,6 @@
 -keepclassmembers class com.aravi.dot.model.* {
   *;
 }
+
+-keep class kotlin.jvm.internal.** { *; }
+-keep class kotlin.Metadata { *; }

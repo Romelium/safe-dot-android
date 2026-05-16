@@ -112,6 +112,8 @@ class LogsAdapter(
 
     @SuppressLint("NotifyDataSetChanged")
     fun setLogsList(logsList: List<Log>) {
+        this.logsList.clear()
+        this.dates.clear()
         this.logsList.addAll(logsList)
         notifyDataSetChanged()
     }

@@ -92,15 +92,13 @@ class LogsActivity : BaseActivity() {
         viewModel.loadList(permission).observe(this) {
             adapter.stopLoading();
             adapter.setLogsList(it);
-
+            binding.logsRecyclerView.removeAllFooterView()
             if (it.isEmpty()) {
                 binding.emptyListImage.visibility = View.VISIBLE
-
             } else {
                 binding.emptyListImage.visibility = View.GONE
                 binding.logsRecyclerView.addFooterView(R.layout.item_log_footer)
             }
-            binding.logsRecyclerView.removeAllFooterView()
             binding.logsRecyclerView.isRefreshing = false
         }
 
