@@ -112,16 +112,6 @@ class PreferenceManager(val context: Context) {
         prefEditor.putBoolean("is_first", false).apply()
     }
 
-    val dotIntegrity: Boolean
-        get() = sharedPreferences.getBoolean(PREF_CONSTANTS.DOT_INTEGRITY, true)
-    var integrity: Boolean
-        get() = sharedPreferences.getBoolean(PREF_CONSTANTS.APP_INTEGRITY, true)
-        set(i) {
-            prefEditor.putBoolean(PREF_CONSTANTS.APP_INTEGRITY, i).apply()
-            prefEditor.putBoolean(PREF_CONSTANTS.DOT_INTEGRITY, i).apply()
-        }
-
-
     private object PREF_CONSTANTS {
         const val SERVICE_KEY = "me.aravi.dot.SERVICE"
         const val VIBRATION_KEY = "me.aravi.dot.CUSTOM.VIBRATION"
@@ -130,12 +120,9 @@ class PreferenceManager(val context: Context) {
         const val CAMERA_KEY = "me.aravi.dot.CAMERA"
         const val MIC_KEY = "me.aravi.dot.MICROPHONE"
         const val LOCATION_KEY = "me.aravi.dot.LOCATION"
-        const val APP_INTEGRITY =
-            "me.aravi.dot.int.e.g.rit.y" + BuildConfig.VERSION_NAME + "_a" + BuildConfig.VERSION_CODE
         const val CAMERA_DOT_COLOR = "dot.camera.color"
         const val MIC_DOT_COLOR = "dot.mic.color"
         const val LOC_DOT_COLOR = "dot.loc.color"
-        const val DOT_INTEGRITY = "sacchai.nijayithi." + BuildConfig.VERSION_CODE
     }
 
 }

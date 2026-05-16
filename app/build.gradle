@@ -116,7 +116,6 @@ dependencies {
 
     // 3rd party
     implementation 'com.pes.materialcolorpicker:library:1.2.5'
-    implementation 'com.github.javiersantos:PiracyChecker:1.2.7'
     implementation 'com.kyleduo.switchbutton:library:2.1.0'
     implementation 'io.github.bitvale:switcher:1.1.2'
     implementation 'com.webianks.library:easy-feedback:1.0.5'
