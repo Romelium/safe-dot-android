@@ -11,6 +11,7 @@ import com.aravi.dot.database.AppDatabase
 import com.aravi.dot.databinding.ActivityAccessActionsBinding
 import com.aravi.dot.extensions.doesHavePermissions
 import com.aravi.dot.extensions.permission
+import com.aravi.dot.extensions.permissions
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import me.aravi.commons.base.BaseActivity
@@ -52,7 +53,7 @@ class AccessActionsActivity : BaseActivity() {
                     preferenceManager.isLocationEnabled = true
                     binding.locationSwitch.checked(true)
                 } else {
-                    permission(Manifest.permission.ACCESS_FINE_LOCATION)
+                    permissions(Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION)
                     binding.locationSwitch.checked(false)
                 }
             } else {
@@ -97,12 +98,14 @@ class AccessActionsActivity : BaseActivity() {
         grantResults: IntArray
     ) {
         if (requestCode == 12030) {
-            if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+            val fineLocationIndex = permissions.indexOf(Manifest.permission.ACCESS_FINE_LOCATION)
+            if (fineLocationIndex != -1 && grantResults.isNotEmpty() && grantResults[fineLocationIndex] == PackageManager.PERMISSION_GRANTED) {
                 val preferenceManager = com.aravi.dot.manager.PreferenceManager(this)
                 preferenceManager.isLocationEnabled = true
                 binding.locationSwitch.checked(true)
             } else {
-                Toast.makeText(this, "Location permission is required", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "Precise location permission is required", Toast.LENGTH_SHORT).show()
+                binding.locationSwitch.checked(false)
             }
         }
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
