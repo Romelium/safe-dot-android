@@ -35,7 +35,7 @@ class PermissionUtils(val context: Context, val utils: Utils) : KoinComponent {
         }
     }
 
-    fun getIcon(context: Context?, permission: String?): Int {
+    fun getIcon(permission: String?): Int {
         return when (permission) {
             Constants.PERMISSION_LOCATION -> R.drawable.ic_round_location
             Constants.PERMISSION_CAMERA -> R.drawable.ic_round_camera
@@ -103,12 +103,8 @@ class PermissionUtils(val context: Context, val utils: Utils) : KoinComponent {
     }
 
 
-    fun checkAutoStartRequirement(
-        context: Context?,
-        inflater: LayoutInflater?,
-        preferenceManager: PreferenceManager
-    ) {
-        val manufacturer = Build.MANUFACTURER
+    fun checkAutoStartRequirement() {
+//        val manufacturer = Build.MANUFACTURER
 //        if (preferenceManager.isFirstLaunch()) {
 //            if ("xiaomi".equals(manufacturer, ignoreCase = true)
 //                || "oppo".equals(manufacturer, ignoreCase = true)

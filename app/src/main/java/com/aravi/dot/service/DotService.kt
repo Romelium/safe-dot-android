@@ -178,6 +178,7 @@ class DotService : AccessibilityService() {
         locationManager = getSystemService(LOCATION_SERVICE) as LocationManager
         if (checkLocationPermission()) {
             try {
+                @Suppress("DEPRECATION")
                 locationManager.registerGnssStatusCallback(locationCallback)
             } catch (e: SecurityException) {
                 sharedPreferenceManager.isLocationEnabled = false
@@ -385,18 +386,25 @@ class DotService : AccessibilityService() {
 
     private fun setViewTint(imageView: ImageView?, color: Int) {
         val drawable = ContextCompat.getDrawable(applicationContext, R.drawable.ic_dot)?.mutate()
-        drawable?.setColorFilter(color, PorterDuff.Mode.SRC_ATOP)
+        drawable?.colorFilter = androidx.core.graphics.BlendModeColorFilterCompat.createBlendModeColorFilterCompat(color, androidx.core.graphics.BlendModeCompat.SRC_ATOP)
         imageView?.background = drawable
     }
 
     private fun triggerVibration() {
         if (sharedPreferenceManager.isVibrationEnabled) {
-            val v = getSystemService(VIBRATOR_SERVICE) as Vibrator
+            val v = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+                val vibratorManager = getSystemService(android.content.Context.VIBRATOR_MANAGER_SERVICE) as android.os.VibratorManager
+                vibratorManager.defaultVibrator
+            } else {
+                @Suppress("DEPRECATION")
+                getSystemService(android.content.Context.VIBRATOR_SERVICE) as Vibrator
+            }
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
                 v.vibrate(VibrationEffect.createOneShot(500, VibrationEffect.EFFECT_HEAVY_CLICK))
             } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                 v.vibrate(VibrationEffect.createOneShot(500, VibrationEffect.DEFAULT_AMPLITUDE))
             } else {
+                @Suppress("DEPRECATION")
                 v.vibrate(500)
             }
         }
@@ -533,6 +541,7 @@ class DotService : AccessibilityService() {
 
     private fun unRegisterLocCallback() {
         if (this::locationManager.isInitialized) {
+            @Suppress("DEPRECATION")
             locationManager.unregisterGnssStatusCallback(locationCallback)
         }
     }

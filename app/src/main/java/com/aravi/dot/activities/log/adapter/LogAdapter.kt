@@ -58,7 +58,7 @@ class LogsAdapter(
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         if (holder is LogViewHolder) {
-            val logsView: LogViewHolder = holder as LogViewHolder
+            val logsView: LogViewHolder = holder
             val item: Log = logsList[position - 1]
             val date: String = utils.getDateFromTimestamp(item.timestamp)
 
@@ -98,8 +98,8 @@ class LogsAdapter(
                 logsView.imageHelp.visibility = View.GONE
             }
         } else if (holder is LogHeaderViewHolder) {
-            val headerView: LogHeaderViewHolder = holder as LogHeaderViewHolder
-            headerView.icon.setImageResource(permissionUtils.getIcon(context, permission))
+            val headerView: LogHeaderViewHolder = holder
+            headerView.icon.setImageResource(permissionUtils.getIcon(permission))
 //            headerView.icon.imageTintList = ColorStateList.valueOf(
 //                utils.getAttrColor(R.attr.colorPrimaryText)
 //            )

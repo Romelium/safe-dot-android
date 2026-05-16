@@ -13,6 +13,7 @@ import org.json.JSONObject
 const val EXTRA_FRAGMENT_ARG_KEY = ":settings:fragment_args_key";
 const val EXTRA_SHOW_FRAGMENT_ARGUMENTS = ":settings:show_fragment_args";
 
+@Suppress("DEPRECATION")
 fun Intent.getShortcutAsData(): String? {
     val returnedIntent = getParcelableExtra<Intent>(Intent.EXTRA_SHORTCUT_INTENT)
     return returnedIntent?.serialize()
@@ -35,11 +36,9 @@ fun Intent.serialize(): String? {
         json.put("categories", jsonCategories)
     }
     component?.let {
-        json.put("component", it?.flattenToString())
+        json.put("component", it.flattenToString())
     }
-    flags?.let {
-        json.put("flags", it)
-    }
+    json.put("flags", flags)
     val extrasJson = JSONObject().apply {
         this@serialize.extras?.keySet()?.forEach {
             val extra = this@serialize.extras?.get(it)

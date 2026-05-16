@@ -79,7 +79,7 @@ class MainActivity : BaseActivity() {
 
     @SuppressLint("SetTextI18n")
     override fun onViewReady(savedInstanceState: Bundle?, intent: Intent?) {
-        edge2Edge()
+        transparentStatusBar()
         bundle = ActivityOptions
             .makeCustomAnimation(this, R.anim.slide_in_right, R.anim.slide_out_left)
             .toBundle();
@@ -93,7 +93,7 @@ class MainActivity : BaseActivity() {
         }
 
         binding.moreAccessControls.setOnClickListener {
-            openActivity(AccessActionsActivity::class.java)
+            open(AccessActionsActivity::class.java)
         }
 
 
@@ -111,7 +111,7 @@ class MainActivity : BaseActivity() {
         }
 
         binding.customiseDots.setOnClickListener {
-            openActivity(CustomisationActivity::class.java)
+            open(CustomisationActivity::class.java)
         }
 
         with(viewModel) {
@@ -149,7 +149,7 @@ class MainActivity : BaseActivity() {
                 ContextCompat.getDrawable(this, R.drawable.ic_round_check_circle_outline_24)
             )
             binding.accessibilityStatusIcon.imageTintList = ColorStateList.valueOf(
-                resources.getColor(R.color.green_300)
+                ContextCompat.getColor(this, R.color.green_300)
             )
             binding.accessibilityStatusTitle.text = "Accessibility Service is enabled"
             binding.accessibilityStatusMessage.text = "This must be enabled for the app to work"
@@ -160,7 +160,7 @@ class MainActivity : BaseActivity() {
                 ContextCompat.getDrawable(this, R.drawable.ic_outline_cancel_24)
             )
             binding.accessibilityStatusIcon.imageTintList = ColorStateList.valueOf(
-                resources.getColor(R.color.red_300)
+                ContextCompat.getColor(this, R.color.red_300)
             )
             binding.accessibilityStatusTitle.text = "Accessibility Service is disabled"
             binding.accessibilityStatusMessage.text =

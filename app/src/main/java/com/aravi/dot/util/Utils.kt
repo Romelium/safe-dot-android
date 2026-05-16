@@ -57,11 +57,6 @@ class Utils(val context: Context) : KoinComponent {
     }
 
     fun openAppInfoActivity(context: Context, packageName: String?) {
-        val bundle = ActivityOptions.makeCustomAnimation(
-            context,
-            R.anim.slide_in_right,
-            R.anim.slide_out_left
-        ).toBundle()
         val i = Intent(context, MainActivity::class.java)
         i.putExtra(Constants.EXTRA_APP, packageName)
         context.startActivity(i)
@@ -69,11 +64,6 @@ class Utils(val context: Context) : KoinComponent {
 
 
     fun openPermissionLog(context: Context, permission: String?) {
-        val bundle = ActivityOptions.makeCustomAnimation(
-            context,
-            R.anim.slide_in_right,
-            R.anim.slide_out_left
-        ).toBundle()
         val i = Intent(context, LogsActivity::class.java)
         i.putExtra(Constants.EXTRA_PERMISSION, permission)
         i.flags = Intent.FLAG_ACTIVITY_NEW_TASK
@@ -81,11 +71,6 @@ class Utils(val context: Context) : KoinComponent {
     }
 
     fun openAppSettings(context: Context, packageName: String) {
-        val bundle = ActivityOptions.makeCustomAnimation(
-            context,
-            R.anim.slide_in_right,
-            R.anim.slide_out_left
-        ).toBundle()
         val intent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS)
         intent.data = Uri.parse("package:$packageName")
         context.startActivity(intent)
@@ -212,8 +197,8 @@ class Utils(val context: Context) : KoinComponent {
     fun showAutoStartDialog(manufacturer: String) {
         MaterialAlertDialogBuilder(context)
             .setTitle("Enable AutoStart ")
-            .setMessage(manufacturer.toUpperCase() + " devices will kill the useful services to free up ram. You're required to provide the auto start permission to the app to keep app running as expected. ")
-            .setPositiveButton("Setup Now") { dialog: DialogInterface?, which: Int ->
+            .setMessage(manufacturer.uppercase() + " devices will kill the useful services to free up ram. You're required to provide the auto start permission to the app to keep app running as expected. ")
+            .setPositiveButton("Setup Now") { _, _ ->
                 openAutoStartAccordingToManufacturer()
             }
             .setCancelable(true)
