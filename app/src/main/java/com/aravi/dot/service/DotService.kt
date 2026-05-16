@@ -164,6 +164,12 @@ class DotService : AccessibilityService() {
             dotCamera.visibility = View.GONE
             dotMic.visibility = View.GONE
             dotLoc.visibility = View.GONE
+            dotCamera.scaleX = 0f
+            dotCamera.scaleY = 0f
+            dotMic.scaleX = 0f
+            dotMic.scaleY = 0f
+            dotLoc.scaleX = 0f
+            dotLoc.scaleY = 0f
         }, if (isDebug) 1000 else 10) // to check if dots are initialised
     }
 
@@ -400,7 +406,7 @@ class DotService : AccessibilityService() {
                 getSystemService(android.content.Context.VIBRATOR_SERVICE) as Vibrator
             }
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-                v.vibrate(VibrationEffect.createOneShot(500, VibrationEffect.EFFECT_HEAVY_CLICK))
+                v.vibrate(VibrationEffect.createPredefined(VibrationEffect.EFFECT_HEAVY_CLICK))
             } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                 v.vibrate(VibrationEffect.createOneShot(500, VibrationEffect.DEFAULT_AMPLITUDE))
             } else {
@@ -482,26 +488,26 @@ class DotService : AccessibilityService() {
     /// hide dots functions ---------------------------
     private fun hideMicDot() {
         downScaleView(dotMic)
-        dotMic.visibility = View.GONE
     }
 
     private fun hideCamDot() {
         downScaleView(dotCamera)
-        dotCamera.visibility = View.GONE
     }
 
     private fun hideLocDot() {
         downScaleView(dotLoc)
-        dotLoc.visibility = View.GONE
     }
 
     // Dot animations
     fun upScaleView(view: View?) {
-        view!!.animate().scaleX(1f).scaleY(1f).duration = 500
+        view?.visibility = View.VISIBLE
+        view?.animate()?.scaleX(1f)?.scaleY(1f)?.duration = 500
     }
 
     fun downScaleView(view: View?) {
-        view!!.animate().scaleX(0f).scaleY(0f).duration = 500
+        view?.animate()?.scaleX(0f)?.scaleY(0f)?.setDuration(500)?.withEndAction {
+            view.visibility = View.GONE
+        }
     }
 
     // Initialise the dots
