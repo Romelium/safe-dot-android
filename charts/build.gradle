@@ -4,6 +4,7 @@ plugins {
 }
 
 android {
+    namespace 'com.android.charts.donut'
     compileSdkVersion 31
 
     defaultConfig {

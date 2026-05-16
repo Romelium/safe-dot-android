@@ -19,6 +19,7 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-kapt'
 
 android {
+    namespace 'com.aravi.dot'
     compileSdkVersion 31
     buildToolsVersion "30.0.3"
 

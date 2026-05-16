@@ -59,45 +59,39 @@ class CustomisationActivity : AppCompatActivity() {
         }
 
         binding.cameraColor.setOnClickListener {
-            val colorPicker = com.pes.materialcolorpicker.ColorPicker(this, 
+            val colorPicker = com.pes.androidmaterialcolorpickerdialog.ColorPicker(this,
                 Color.red(preferenceManager.cameraDotColor), 
                 Color.green(preferenceManager.cameraDotColor), 
                 Color.blue(preferenceManager.cameraDotColor))
             colorPicker.show()
             colorPicker.enableAutoClose()
-            colorPicker.setCallback { color ->
+            colorPicker.setCallback { color: Int ->
                 preferenceManager.cameraDotColor = color
             }
         }
 
         binding.micColor.setOnClickListener {
-            val colorPicker = com.pes.materialcolorpicker.ColorPicker(this, 
+            val colorPicker = com.pes.androidmaterialcolorpickerdialog.ColorPicker(this,
                 Color.red(preferenceManager.micDotColor), 
                 Color.green(preferenceManager.micDotColor), 
                 Color.blue(preferenceManager.micDotColor))
             colorPicker.show()
             colorPicker.enableAutoClose()
-            colorPicker.setCallback { color ->
+            colorPicker.setCallback { color: Int ->
                 preferenceManager.micDotColor = color
             }
         }
 
         binding.locColor.setOnClickListener {
-            val colorPicker = com.pes.materialcolorpicker.ColorPicker(this, 
+            val colorPicker = com.pes.androidmaterialcolorpickerdialog.ColorPicker(this,
                 Color.red(preferenceManager.locationDotColor), 
                 Color.green(preferenceManager.locationDotColor), 
                 Color.blue(preferenceManager.locationDotColor))
             colorPicker.show()
             colorPicker.enableAutoClose()
-            colorPicker.setCallback { color ->
+            colorPicker.setCallback { color: Int ->
                 preferenceManager.locationDotColor = color
             }
-        }
-
-        binding.customizeNotification.setOnClickListener {
-            val intent = Intent(Settings.ACTION_APP_NOTIFICATION_SETTINGS)
-            intent.putExtra(Settings.EXTRA_APP_PACKAGE, packageName)
-            startActivity(intent)
         }
 
         binding.resetDefaults.setOnClickListener {

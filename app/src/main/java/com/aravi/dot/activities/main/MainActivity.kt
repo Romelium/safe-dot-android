@@ -24,6 +24,7 @@ import android.content.pm.PackageManager
 import android.content.res.ColorStateList
 import android.os.Bundle
 import android.view.View
+import android.provider.Settings
 import androidx.activity.viewModels
 import androidx.core.content.ContextCompat
 import com.android.charts.donut.AnimationMode

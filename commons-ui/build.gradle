@@ -4,6 +4,7 @@ plugins {
 }
 
 android {
+    namespace 'me.aravi.common.ui'
     compileSdkVersion 32
 
     defaultConfig {
