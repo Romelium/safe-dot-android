@@ -36,6 +36,7 @@ class CustomisationActivity : AppCompatActivity() {
         binding = ActivityCustomisationBinding.inflate(layoutInflater)
         setContentView(binding.root)
         setSupportActionBar(binding.toolbar)
+        binding.toolbar.setNavigationOnClickListener { onBackPressed() }
 
         preferenceManager = PreferenceManager(this)
 
