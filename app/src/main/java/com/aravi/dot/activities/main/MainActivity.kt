@@ -132,15 +132,15 @@ class MainActivity : BaseActivity() {
         }
 
         binding.githubButton.setOnClickListener {
-            utils.openLink("https://github.com/kamaravichow/safe-dot-android")
+            utils.openLink(this@MainActivity, "https://github.com/romelium/safe-dot-android")
         }
 
         binding.twitterButton.setOnClickListener {
-            utils.openLink("https://twitter.com")
+            utils.openLink(this@MainActivity, "https://twitter.com")
         }
 
         binding.telegramButton.setOnClickListener {
-            utils.openLink("https://t.me")
+            utils.openLink(this@MainActivity, "https://t.me")
         }
 
         with(viewModel) {

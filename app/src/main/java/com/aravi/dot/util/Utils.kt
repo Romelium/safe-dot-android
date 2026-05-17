@@ -103,9 +103,9 @@ class Utils(val context: Context) : KoinComponent {
         }
     }
 
-    fun openLink(url: String?) {
+    fun openLink(activityContext: Context, url: String?) {
         val bundle = ActivityOptions.makeCustomAnimation(
-            context,
+            activityContext,
             R.anim.slide_in_left,
             R.anim.slide_out_right
         ).toBundle()
@@ -113,24 +113,28 @@ class Utils(val context: Context) : KoinComponent {
         i.data = Uri.parse(url)
         i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
         try {
-            context.startActivity(i, bundle)
+            try {
+                activityContext.startActivity(i, bundle)
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
         } catch (e: Exception) {
             e.printStackTrace()
         }
     }
 
-    fun sendEmail(email: String) {
+    fun sendEmail(activityContext: Context, email: String) {
         val intent = Intent(Intent.ACTION_SENDTO)
         intent.data = Uri.parse("mailto:")
         intent.putExtra(Intent.EXTRA_EMAIL, arrayOf<String>(email))
         intent.putExtra(
             Intent.EXTRA_SUBJECT,
-            context.getString(R.string.app_name) + ":" + BuildConfig.VERSION_NAME
+            activityContext.getString(R.string.app_name) + ":" + BuildConfig.VERSION_NAME
         )
         intent.putExtra(Intent.EXTRA_TEXT, "")
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
         try {
-            context.startActivity(intent)
+            activityContext.startActivity(intent)
         } catch (e: Exception) {
             println(e.toString())
         }
