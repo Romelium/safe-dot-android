@@ -42,12 +42,6 @@ class LogsAdapter(
 //                    layoutInflater
 //                )
             }
-            viewHolder.rlAppInfo.setOnClickListener {
-                val pos = viewHolder.bindingAdapterPosition
-                if (pos != RecyclerView.NO_POSITION && pos >= 1 && pos - 1 < logsList.size) {
-                    utils.openAppSettings(context, logsList[pos - 1].packageName)
-                }
-            }
             return viewHolder
         } else {
             val binding: ItemLogHeaderBinding =
@@ -96,6 +90,10 @@ class LogsAdapter(
                 logsView.imageHelp.visibility = View.VISIBLE
             } else {
                 logsView.imageHelp.visibility = View.GONE
+            }
+
+            logsView.rlAppInfo.setOnClickListener {
+                utils.openAppSettings(context, item.packageName)
             }
         } else if (holder is LogHeaderViewHolder) {
             val headerView: LogHeaderViewHolder = holder
