@@ -73,8 +73,7 @@ class Utils(val context: Context) : KoinComponent {
     fun openAppSettings(context: Context, packageName: String) {
         try {
             val intent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS)
-            intent.data = Uri.parse("package:$packageName")
-            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
+            intent.data = Uri.fromParts("package", packageName, null)
             context.startActivity(intent)
         } catch (e: Exception) {
             e.printStackTrace()
