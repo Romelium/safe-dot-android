@@ -123,10 +123,16 @@ class CustomisationActivity : AppCompatActivity() {
         binding.resetDefaults.setOnClickListener {
             preferenceManager.isIconsEnabled = true
             preferenceManager.setDotPostion(1)
+
+            preferenceManager.cameraDotColor = ContextCompat.getColor(this, R.color.green_500)
+            preferenceManager.micDotColor = ContextCompat.getColor(this, R.color.orange_500)
+            preferenceManager.locationDotColor = ContextCompat.getColor(this, R.color.purple_500)
+
             binding.iconsSwitch.checked(preferenceManager.isIconsEnabled)
             binding.dotAlignmentGroup.check(binding.alignRight.id)
             updatePreviewAlignment(1)
             updatePreviewIcons(true)
+            updatePreviewColors()
         }
     }
 

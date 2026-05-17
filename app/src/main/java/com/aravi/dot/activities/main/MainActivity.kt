@@ -231,11 +231,12 @@ class MainActivity : BaseActivity() {
     private fun initData() {
         val logs: MutableList<Int> = ArrayList()
         val entries: MutableList<FitChartValue> = ArrayList()
+        val prefManager = com.aravi.dot.manager.PreferenceManager(this)
         val colors: MutableList<Int> = ArrayList()
 
-        colors.add(R.color.red_300)
-        colors.add(R.color.green_300)
-        colors.add(R.color.blue_300)
+        colors.add(prefManager.locationDotColor)
+        colors.add(prefManager.cameraDotColor)
+        colors.add(prefManager.micDotColor)
 
         val location_logs = getLogCount(Constants.PERMISSION_LOCATION)
         val camera_logs = getLogCount(Constants.PERMISSION_CAMERA)
@@ -260,7 +261,7 @@ class MainActivity : BaseActivity() {
             logcat { "i in for loop : $i" }
             if (logs[i] != 0) {
                 logcat { "DATA EXISTS" }
-                entries.add(FitChartValue(logs[i].toFloat(), resources.getColor(colors[i], null)))
+                entries.add(FitChartValue(logs[i].toFloat(), colors[i]))
             }
         }
 

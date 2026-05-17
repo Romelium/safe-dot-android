@@ -178,7 +178,7 @@ class DotService : AccessibilityService() {
 
         layoutParams.type = WindowManager.LayoutParams.TYPE_ACCESSIBILITY_OVERLAY
         layoutParams.format = PixelFormat.TRANSLUCENT
-        layoutParams.flags = WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE
+        layoutParams.flags = WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE or WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE
         layoutParams.width = WindowManager.LayoutParams.WRAP_CONTENT
         layoutParams.height = WindowManager.LayoutParams.WRAP_CONTENT
         layoutParams.gravity = layoutGravity
@@ -190,7 +190,7 @@ class DotService : AccessibilityService() {
         dotLoc = hoverLayout.findViewById(R.id.dot_location)
         setDotCustomColors()
 
-        dotCamera.postDelayed({
+        val hideDots = Runnable {
             dotCamera.visibility = View.GONE
             dotMic.visibility = View.GONE
             dotLoc.visibility = View.GONE
@@ -200,7 +200,13 @@ class DotService : AccessibilityService() {
             dotMic.scaleY = 0f
             dotLoc.scaleX = 0f
             dotLoc.scaleY = 0f
-        }, if (isDebug) 1000 else 10) // to check if dots are initialised
+        }
+
+        if (isDebug) {
+            dotCamera.postDelayed(hideDots, 1000) // to check if dots are initialised
+        } else {
+            hideDots.run()
+        }
     }
 
 
@@ -530,14 +536,16 @@ class DotService : AccessibilityService() {
 
     // Dot animations
     fun upScaleView(view: View?) {
+        view?.animate()?.cancel()
         view?.visibility = View.VISIBLE
-        view?.animate()?.scaleX(1f)?.scaleY(1f)?.duration = 500
+        view?.animate()?.scaleX(1f)?.scaleY(1f)?.setDuration(500)?.withEndAction(null)?.start()
     }
 
     fun downScaleView(view: View?) {
+        view?.animate()?.cancel()
         view?.animate()?.scaleX(0f)?.scaleY(0f)?.setDuration(500)?.withEndAction {
             view.visibility = View.GONE
-        }
+        }?.start()
     }
 
     // Initialise the dots
