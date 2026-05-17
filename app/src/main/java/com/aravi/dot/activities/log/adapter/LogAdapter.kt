@@ -42,7 +42,7 @@ class LogsAdapter(
 //                    layoutInflater
 //                )
             }
-            binding.root.setOnClickListener {
+            viewHolder.rlAppInfo.setOnClickListener {
                 val pos = viewHolder.bindingAdapterPosition
                 if (pos != RecyclerView.NO_POSITION && pos >= 1 && pos - 1 < logsList.size) {
                     utils.openAppSettings(context, logsList[pos - 1].packageName)
