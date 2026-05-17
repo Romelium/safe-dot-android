@@ -19,14 +19,28 @@
   </a>
 </p> 
 
+## About This Fork
+
+This repository is a fork of the original [safe-dot-android by kamaravichow](https://github.com/kamaravichow/safe-dot-android).
+
+### Improvements & Fixes in This Fork:
+- **Updated Build Environment:** Updated build files by upgrading Gradle, Kotlin, and Android to newer versions. Also removed jcenter() as it is deprecated.
+- **Removed Unnecessary Features:** Removed PiracyChecker and easy-feedback to make the application completely open-source, free, and without any license checking.
+- **Bug Fixes:** 
+  - Fix "Clear Logs", which was broken earlier.
+  - Fix for alignments, scaling, and fading of indicator dots.
+  - Fix for Accessibility Service that tracks permissions like Camera, Microphone, and Location.
+  - Cleanup of redundant lines and unnecessary Activities like `WhitelistActivity`, `FeedbackActivity`.
+- **Minor UI Fixes:** Minor changes in the UI layout and description texts.
+
 ## README
-When any permission is in use, my app checks for the app which is currently running in the foreground. 
+When any permission is in use, the app checks for the app which is currently running in the foreground.
 
-In your case, I think some other app is trying to access your sensors when another app is running in foreground(which doesn't have any permissions) which makes my app think that the app in the foreground is using those sensors.
+In some cases, some other app might try to access your sensors when another app is running in the foreground (which doesn't have any permissions) which makes this app think that the app in the foreground is using those sensors.
 
-So don't completely depend on the access logs, as for now we cannot get the information about what app is exactly using your sensors.
+So don't completely depend on the access logs, as for now we cannot get the exact information about what background app is secretly using your sensors, but you will at least know *when* the sensors are being engaged.
 
-Feel free to ask if you didn't understand in [discussions](https://github.com/romelium/safe-dot-android/discussions). Thanks for using my app.
+Feel free to ask if you didn't understand in [discussions](https://github.com/romelium/safe-dot-android/discussions). Thanks for using the app.
 
 ## Issue Tracking
 
