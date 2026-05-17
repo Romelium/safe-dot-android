@@ -1,5 +1,5 @@
 <p align="center">
- <img width="100px" src="https://github.com/romelium/safe-dot-android/blob/master/fastlane/metadata/android/en-US/images/icon.png?raw=true" align="center" alt="Safe Dot" />
+ <img width="100px" src="fastlane/metadata/android/en-US/images/icon.png?raw=true" align="center" alt="Safe Dot" />
  <h2 align="center">Safe Dot</h2>
  <p align="center">iOS 14 Privacy Indicators for Android</p>
 </p>
