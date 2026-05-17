@@ -36,6 +36,7 @@ import com.aravi.dot.database.AppDatabase
 import com.aravi.dot.databinding.ActivityMainBinding
 import com.aravi.dot.extensions.isAccessibilityServiceEnabled
 import com.aravi.dot.manager.DevLogger
+import com.aravi.dot.manager.PreferenceManager
 import com.aravi.dot.service.DotService
 import com.aravi.dot.util.PermissionUtils
 import com.aravi.dot.util.Utils
@@ -53,6 +54,7 @@ class MainActivity : BaseActivity() {
 
     private val permissionUtils: PermissionUtils by inject()
     private val database: AppDatabase by inject()
+    private val prefManager: PreferenceManager by inject()
 
     private val viewModel by viewModels<MainActivityViewModel>()
 
@@ -96,15 +98,27 @@ class MainActivity : BaseActivity() {
 
 
         binding.cameraSwitch.setOnClickListener {
-            utils.openHistoryActivity(this, Constants.PERMISSION_CAMERA)
+            if (prefManager.isCameraEnabled) {
+                utils.openHistoryActivity(this, Constants.PERMISSION_CAMERA)
+            } else {
+                open(AccessActionsActivity::class.java)
+            }
         }
 
         binding.microphoneSwitch.setOnClickListener {
-            utils.openHistoryActivity(this, Constants.PERMISSION_MICROPHONE)
+            if (prefManager.isMicEnabled) {
+                utils.openHistoryActivity(this, Constants.PERMISSION_MICROPHONE)
+            } else {
+                open(AccessActionsActivity::class.java)
+            }
         }
 
         binding.locationSwitch.setOnClickListener {
-            utils.openHistoryActivity(this, Constants.PERMISSION_LOCATION)
+            if (prefManager.isLocationEnabled) {
+                utils.openHistoryActivity(this, Constants.PERMISSION_LOCATION)
+            } else {
+                open(AccessActionsActivity::class.java)
+            }
         }
 
         binding.customiseDots.setOnClickListener {
@@ -155,6 +169,7 @@ class MainActivity : BaseActivity() {
     override fun onResume() {
         super.onResume()
         onServiceStateChanged(isAccessibilityServiceEnabled(this, DotService::class.java))
+        updateTimelineButtons()
     }
 
 
@@ -187,6 +202,31 @@ class MainActivity : BaseActivity() {
         devLogger.log("ACCESSIBILITY : Permission state $enabled")
     }
 
+    private fun updateTimelineButtons() {
+        if (prefManager.isCameraEnabled) {
+            binding.cameraSwitch.alpha = 1.0f
+            binding.cameraSwitch.setMessage("View timeline of when your camera was accessed")
+        } else {
+            binding.cameraSwitch.alpha = 0.5f
+            binding.cameraSwitch.setMessage("Monitoring disabled. Tap to change in Access Actions")
+        }
+
+        if (prefManager.isMicEnabled) {
+            binding.microphoneSwitch.alpha = 1.0f
+            binding.microphoneSwitch.setMessage("View timeline of when your microphone was accessed")
+        } else {
+            binding.microphoneSwitch.alpha = 0.5f
+            binding.microphoneSwitch.setMessage("Monitoring disabled. Tap to change in Access Actions")
+        }
+
+        if (prefManager.isLocationEnabled) {
+            binding.locationSwitch.alpha = 1.0f
+            binding.locationSwitch.setMessage("View timeline of when your location was accessed")
+        } else {
+            binding.locationSwitch.alpha = 0.5f
+            binding.locationSwitch.setMessage("Monitoring disabled. Tap to change in Access Actions")
+        }
+    }
 
     private fun initData() {
         val logs: MutableList<Int> = ArrayList()

@@ -157,7 +157,7 @@
                         android:focusable="true"
                         app:icon="@drawable/ic_round_camera"
                         app:icon_tint="@color/deep_purple_400"
-                        app:message="Toggle this to enable or disable camera monitoring"
+                        app:message="View timeline of when your camera was accessed"
                         app:title="Camera" />
 
                     <com.aravi.dot.ui.views.SettingsView
@@ -168,7 +168,7 @@
                         android:focusable="true"
                         app:icon="@drawable/ic_round_mic"
                         app:icon_tint="@color/orange_400"
-                        app:message="Toggle this to enable or disable microphone monitoring"
+                        app:message="View timeline of when your microphone was accessed"
                         app:title="Microphone" />
 
 
@@ -180,7 +180,7 @@
                         android:focusable="true"
                         app:icon="@drawable/ic_round_location"
                         app:icon_tint="@color/blue_500"
-                        app:message="Toggle this to enable or disable location monitoring"
+                        app:message="View timeline of when your location was accessed"
                         app:title="Location" />
 
 
