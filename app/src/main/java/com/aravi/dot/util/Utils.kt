@@ -111,7 +111,12 @@ class Utils(val context: Context) : KoinComponent {
         ).toBundle()
         val i = Intent(Intent.ACTION_VIEW)
         i.data = Uri.parse(url)
-        context.startActivity(i, bundle)
+        i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+        try {
+            context.startActivity(i, bundle)
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
     }
 
     fun sendEmail(email: String) {
@@ -123,6 +128,7 @@ class Utils(val context: Context) : KoinComponent {
             context.getString(R.string.app_name) + ":" + BuildConfig.VERSION_NAME
         )
         intent.putExtra(Intent.EXTRA_TEXT, "")
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
         try {
             context.startActivity(intent)
         } catch (e: Exception) {
@@ -235,6 +241,7 @@ class Utils(val context: Context) : KoinComponent {
                 PackageManager.MATCH_DEFAULT_ONLY
             )
             if (list.size > 0) {
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
                 context.startActivity(intent)
             }
         } catch (e: Exception) {
