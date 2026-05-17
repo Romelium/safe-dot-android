@@ -71,9 +71,14 @@ class Utils(val context: Context) : KoinComponent {
     }
 
     fun openAppSettings(context: Context, packageName: String) {
-        val intent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS)
-        intent.data = Uri.parse("package:$packageName")
-        context.startActivity(intent)
+        try {
+            val intent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS)
+            intent.data = Uri.parse("package:$packageName")
+            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
+            context.startActivity(intent)
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
     }
 
     fun openPrivacySettings(context: Context) {
