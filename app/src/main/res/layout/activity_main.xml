@@ -280,69 +280,6 @@
             </com.google.android.material.card.MaterialCardView>
 
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/google_sans_bold"
-                android:padding="5dp"
-                android:text="Settings Panel"
-                android:textAlignment="center"
-                android:textSize="18sp" />
-
-            <com.google.android.material.card.MaterialCardView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="10dp"
-                app:strokeColor="@color/grey_200">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical">
-
-                    <com.aravi.dot.ui.views.SettingsView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:clickable="true"
-                        android:focusable="true"
-                        app:icon="@drawable/ic_round_feedback_24"
-                        app:icon_tint="@color/indigo_400"
-                        app:iconVisibility="false"
-                        app:message="Find more advanced preferences you might want to change to make app more powerful"
-                        app:title="Feedback" />
-
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:gravity="end"
-                        android:orientation="horizontal"
-                        android:paddingStart="10dp"
-                        android:paddingEnd="10dp"
-                        android:weightSum="3">
-
-                        <com.google.android.material.button.MaterialButton
-                            android:id="@+id/bug_report"
-                            style="@style/Widget.Material3.Button.TonalButton"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginHorizontal="5dp"
-                            android:layout_weight="1"
-                            android:text="Bug Report" />
-
-                        <com.google.android.material.button.MaterialButton
-                            android:id="@+id/feature_request"
-                            style="@style/Widget.Material3.Button.TonalButton"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginHorizontal="5dp"
-                            android:layout_weight="1"
-                            android:text="Feature Request" />
-
-
-                    </LinearLayout>
-
-
                 </LinearLayout>
 
 

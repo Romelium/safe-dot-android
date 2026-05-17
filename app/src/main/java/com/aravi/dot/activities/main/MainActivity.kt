@@ -131,10 +131,6 @@ class MainActivity : BaseActivity() {
             startActivity(intent)
         }
 
-        binding.featureRequest.setOnClickListener {
-            utils.openLink("https://github.com/kamaravichow/safe-dot-android/issues")
-        }
-
         binding.githubButton.setOnClickListener {
             utils.openLink("https://github.com/kamaravichow/safe-dot-android")
         }
@@ -155,10 +151,6 @@ class MainActivity : BaseActivity() {
             }
         }
 
-
-        binding.bugReport.setOnClickListener {
-            utils.sendEmail("safedot@romelium.cc")
-        }
 
         initData()
 

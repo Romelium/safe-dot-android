@@ -19,13 +19,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
-        android:id="@+id/action_whitelist"
-        android:icon="@drawable/ic_times_square"
-        android:title="Whitelist"
-        app:showAsAction="always" />
-
-
-    <item
         android:id="@+id/action_filter"
         android:icon="@drawable/ic_filter"
         android:title="Filter"

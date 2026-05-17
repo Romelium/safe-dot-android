@@ -59,11 +59,6 @@
             android:launchMode="singleTask"
             android:screenOrientation="portrait"
             tools:ignore="LockedOrientationActivity" />
-        <activity
-            android:name="com.aravi.dot.activities.ignore.WhitelistActivity"
-            android:exported="false"
-            android:screenOrientation="portrait"
-            tools:ignore="LockedOrientationActivity" />
 
         <service
             android:name="com.aravi.dot.service.DotService"

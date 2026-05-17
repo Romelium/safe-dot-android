@@ -6,7 +6,6 @@ import android.content.pm.PackageManager
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
-import com.aravi.dot.activities.ignore.WhitelistActivity
 import com.aravi.dot.database.AppDatabase
 import com.aravi.dot.databinding.ActivityAccessActionsBinding
 import com.aravi.dot.extensions.doesHavePermissions
@@ -60,18 +59,6 @@ class AccessActionsActivity : BaseActivity() {
                 preferenceManager.isLocationEnabled = false
                 binding.locationSwitch.checked(false)
             }
-        }
-
-        binding.excludedApps.setOnClickListener {
-            startActivity(Intent(this, WhitelistActivity::class.java))
-        }
-
-        binding.btnExcludedApps.setOnClickListener {
-            startActivity(Intent(this, WhitelistActivity::class.java))
-        }
-
-        binding.btnOptions.setOnClickListener {
-            Toast.makeText(this, "Options clicked", Toast.LENGTH_SHORT).show()
         }
 
         binding.clearAccessLogs.setOnClickListener {

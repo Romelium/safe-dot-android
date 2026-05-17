@@ -108,47 +108,6 @@
                     android:layout_height="wrap_content"
                     android:orientation="vertical">
 
-                    <com.aravi.dot.ui.views.SettingsView
-                        android:id="@+id/excluded_apps"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:clickable="true"
-                        android:focusable="true"
-                        app:icon="@drawable/ic_round_dashboard_24"
-                        app:iconVisibility="false"
-                        app:icon_tint="@color/green_300"
-                        app:message="App will stop logging information from the selected apps here"
-                        app:title="Excluded Apps" />
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:gravity="end"
-                        android:orientation="horizontal"
-                        android:paddingStart="10dp"
-                        android:paddingEnd="10dp"
-                        android:weightSum="3">
-
-                        <com.google.android.material.button.MaterialButton
-                            android:id="@+id/btn_excluded_apps"
-                            style="@style/Widget.Material3.Button.TonalButton"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginHorizontal="5dp"
-                            android:layout_weight="1"
-                            android:text="Excluded Apps" />
-
-                        <com.google.android.material.button.MaterialButton
-                            android:id="@+id/btn_options"
-                            style="@style/Widget.Material3.Button.TonalButton"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginHorizontal="5dp"
-                            android:layout_weight="1"
-                            android:text="Options" />
-
-
-                    </LinearLayout>
 
                     <com.aravi.dot.ui.views.SwitchSettingsView
                         android:id="@+id/time_switch"
